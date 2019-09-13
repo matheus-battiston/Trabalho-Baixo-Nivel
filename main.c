@@ -68,6 +68,23 @@ void dump(Imagem* img)
 	printf("\n");
 }
 
+void valida(Imagem* img)
+{
+    int tamOrig  = img->largura * img->altura;
+    int tamTotal = 0;
+    int pos = 0;
+    unsigned char* ptr = img->imagemCompact;
+    while(pos < img->tamCompact) {
+        int qtd = *ptr;
+        unsigned char val = *(ptr+1);
+        printf("Out: %d x %02X\n", qtd, val);
+        tamTotal += qtd;
+        ptr += 2;
+        pos += 2;
+    }
+    printf("Tamanho total/original: %d / %d\n", tamTotal, tamOrig);
+}
+
 // **********************************************************************
 int main()
 {
