@@ -84,17 +84,67 @@ void valida(Imagem* img)
     }
     printf("Tamanho total/original: %d / %d\n", tamTotal, tamOrig);
 }
+void compactar(Imagem* img){
+    
+    unsigned char* comparar;
+    int i, cont;
+    cont = 0;
+    for (i=0; i < img -> tamOrig; i++){
+        if (img -> imagemOrig[i] == 0x0A){
+            cont++;
+            if (cont == 3){
+                i++;
+                break;
+            }
+        } 
+    }
+
+    comparar = img -> imagemOrig[i];
+    int cont2 = 0;
+    cont = 0;
+    for (i;i < img -> tamOrig; i++){
+        if (img -> imagemOrig[i] == comparar){
+            if(cont<=254){
+            cont++;
+            }
+            else{
+                img -> imagemCompact[cont2] = cont;
+                cont2++;
+                cont=0;
+            }
+            }
+
+            
+        else {
+            comparar=img->imagemOrig[i];
+            img -> imagemCompact[cont2] = cont;
+            cont2++;
+            cont = 0;
+        }
+        
+    }
+    
+    for (i = 0; i < cont2+1; i++){
+        printf("%d\n", img -> imagemCompact[i]);
+    }
+
+
+    
+
+}
+
 
 // **********************************************************************
 int main()
 {
-    char nomeArquivo[] = "logofacin.pgm";
+    char nomeArquivo[] = "x.pgm";
     int largura, altura;
 
 	Imagem imagem;
     carregaPGM(nomeArquivo, &imagem);
 
 	dump(&imagem);
+    compactar(&imagem);
 
 	// Libera memoria de ambas as imagens
 	free(imagem.imagemOrig);
